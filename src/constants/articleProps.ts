@@ -161,7 +161,6 @@ export const contentWidthArr: OptionType[] = [
 		optionClassName: 'option-narrow',
 	},
 ];
-
 export const fontSizeOptions: OptionType[] = [
 	{ title: '18px', value: '18px', className: 'font-size-18' },
 	{ title: '25px', value: '25px', className: 'font-size-25' },
