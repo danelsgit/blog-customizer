@@ -11,7 +11,7 @@ import {
 	ArticleStateType,
 	backgroundColors,
 	contentWidthArr,
-	defaultArticleState, 
+	defaultArticleState,
 	fontFamilyOptions,
 	fontColors,
 	fontSizeOptions,
@@ -29,6 +29,7 @@ export const ArticleParamsForm = (props: PropsArticleParamsForm) => {
 	const { resetDefault, submit, toggle, openForm } = props;
 
 	useEffect(() => {
+		if (!openForm) return;
 		const handleOpen = (event: KeyboardEvent) => {
 			if (event.key === 'Escape' && openForm === true) toggle?.(false);
 		};
@@ -44,53 +45,52 @@ export const ArticleParamsForm = (props: PropsArticleParamsForm) => {
 		fontSizeOption: fontSizeOptions[0],
 	});
 
-	const colorsForBackground = (option: OptionType) => {
+	const setBackgroundColors = (option: OptionType) => {
 		setParams({
 			...params,
 			backgroundColor: option,
 		});
 	};
-	const toggleOn = () => {
+	const setOpenForm = () => {
 		toggle?.(openForm);
 	};
 
-	const fonts = (option: OptionType) => {
+	const setFontFamily = (option: OptionType) => {
 		setParams({
 			...params,
 			fontFamilyOption: option,
 		});
 	};
 
-	const colorFont = (option: OptionType) => {
+	const setFontColor = (option: OptionType) => {
 		setParams({
 			...params,
 			fontColor: option,
 		});
 	};
 
-	const fontSize = (option: OptionType) => {
+	const setFontSize = (option: OptionType) => {
 		setParams({
 			...params,
 			fontSizeOption: option,
 		});
 	};
 
-	const paramsSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleParamsSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		submit?.(params);
 	};
 
-	const stylesResetDefault = () => {
+	const stylesResetToDefault = () => {
 		setParams(defaultArticleState);
 		resetDefault?.(defaultArticleState);
 	};
 
-	const sidebarOpen = clsx({
-		[styles.container]: true,
+	const setSidebarOpen = clsx(styles.container, {
 		[styles.container_open]: openForm,
 	});
 
-	const widthForContent = (option: OptionType) => {
+	const setContentWidth = (option: OptionType) => {
 		setParams({
 			...params,
 			contentWidth: option,
@@ -99,29 +99,30 @@ export const ArticleParamsForm = (props: PropsArticleParamsForm) => {
 
 	return (
 		<>
-		<ArrowButton onClick={toggleOn} isOpen={openForm} />
-			<aside className={sidebarOpen} style={{overflow:'hidden'}}>
-				<form className={styles.form} onSubmit={paramsSubmit} onReset={stylesResetDefault}>
-					<fieldset style={{ display: 'grid', gap: 'clamp(10px, 4vh, 50px)' }}>
+		<ArrowButton onClick={setOpenForm} isOpen={openForm} />
+			<aside className={clsx(setSidebarOpen,
+			styles.hideOverflow)} >
+				<form className={styles.form} onSubmit={handleParamsSubmit} onReset={stylesResetToDefault}>
+					<fieldset className={styles.fieldsetSize}>
 						<Text size={31} weight={800} uppercase>
 							{'Задайте параметры'}
 						</Text>
 						<Select
-							onChange={fonts}
+							onChange={setFontFamily}
 							title='Шрифт'
 							selected={params.fontFamilyOption}
 							placeholder='Open Sans'
 							options={fontFamilyOptions}
 						/>
 						<RadioGroup
-							onChange={fontSize}
+							onChange={setFontSize}
 							title={'Размер шрифта'}
 							selected={params.fontSizeOption}
 							name={params.fontSizeOption.className}
 							options={fontSizeOptions}
 						/>
 						<Select
-							onChange={colorFont}
+							onChange={setFontColor}
 							title='Цвет шрифта'
 							selected={params.fontColor}
 							placeholder={params.fontColor.title}
@@ -129,14 +130,14 @@ export const ArticleParamsForm = (props: PropsArticleParamsForm) => {
 						/>
 						<Separator />
 						<Select
-							onChange={colorsForBackground}
+							onChange={setBackgroundColors}
 							title='Цвет фона'
 							selected={params.backgroundColor}
 							placeholder={params.backgroundColor.title}
 							options={backgroundColors}
 						/>
 						<Select
-							onChange={widthForContent}
+							onChange={setContentWidth}
 							title='Ширина контента'
 							selected={params.contentWidth}
 							placeholder={params.contentWidth.title}

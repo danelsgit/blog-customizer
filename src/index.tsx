@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+
 import { StrictMode, CSSProperties, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Article } from './components/article/Article';
@@ -19,10 +19,13 @@ const App = () => {
 	const submit = (props: ArticleStateType) => setFormState(props);
 	const reset = (props: ArticleStateType) => setFormState(props);
 	const toggle = () => setFormOpen(!openForm);
- 
+
 	return (
-		<div
-			className={clsx(styles.main)}
+		<div>
+		<header>
+		</header>
+		<main
+			className={styles.main}
 			style={
 				{
 					'--font-family': formState.fontFamilyOption.value,
@@ -39,6 +42,7 @@ const App = () => {
 				toggle={toggle}
 			/>
 			<Article onClick={() => setFormOpen(false)} />
+		</main>
 		</div>
 	);
 };
