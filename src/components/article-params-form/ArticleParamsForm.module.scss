@@ -30,3 +30,12 @@
 	justify-content: space-between;
 	margin-top: auto;
 }
+
+.hideOverflow {
+	overflow: hidden;
+}
+
+.fieldsetSize {
+	display: grid;
+	gap: clamp(10px, 4vh, 50px)
+}
